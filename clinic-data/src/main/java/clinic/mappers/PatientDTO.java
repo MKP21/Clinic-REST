@@ -20,11 +20,12 @@ public class PatientDTO {
         this.treatments = treatments;
     }
 
+    // Constructor 2
     public PatientDTO(){
 
     }
 
-    // Constructor 2
+
     public Long getId() {
         return id;
     }

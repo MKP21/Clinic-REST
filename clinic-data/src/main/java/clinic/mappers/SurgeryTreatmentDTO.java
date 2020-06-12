@@ -5,20 +5,25 @@ import clinic.model.Provider;
 import clinic.model.TreatmentType;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class SurgeryTreatmentDTO extends TreatmentDTO{
-    private LocalDate date;
+    private Date date;
 
-    public SurgeryTreatmentDTO(Long id,PatientDTO patient, ProviderDTO provider, String diagnosis, LocalDate date) {
+    public SurgeryTreatmentDTO(Long id,PatientDTO patient, ProviderDTO provider, String diagnosis, Date date) {
         super( id,patient, provider, diagnosis, TreatmentType.SURGERYTREATMENT);
         this.date = date;
     }
 
-    public LocalDate getDate() {
+    public SurgeryTreatmentDTO(){
+        super();
+    }
+
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

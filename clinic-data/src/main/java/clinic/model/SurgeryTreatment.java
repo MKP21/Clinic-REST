@@ -2,17 +2,17 @@ package clinic.model;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class SurgeryTreatment extends Treatment {
-    private LocalDate date;
+    private Date date;
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

@@ -1,16 +1,18 @@
 package clinic.controllers;
 
-import clinic.mappers.PatientDTO;
-import clinic.mappers.ProviderDTO;
-import clinic.mappers.TreatmentDTO;
+import clinic.mappers.*;
+import clinic.model.SurgeryTreatment;
 import clinic.services.PatientService;
 import clinic.services.ProviderService;
 import clinic.services.TreatmentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -38,8 +40,15 @@ public class TreatmentController{
 
     //TODO Convert parameter to Map<String,Object>, read field and transform map into appropriate DTO
     @PostMapping
-    public ResponseEntity<TreatmentDTO> newTreatment(@RequestBody TreatmentDTO treatmentDTO){
-        return new ResponseEntity<>(treatmentService.save(treatmentDTO),
+    public ResponseEntity<TreatmentDTO> newTreatment(@RequestBody String payload){
+        TreatmentDTO t = null;
+        try{
+            t = payLoadtoDto(payload);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(treatmentService.save(t),
                 HttpStatus.CREATED);
     }
 
@@ -70,5 +79,18 @@ public class TreatmentController{
     public ResponseEntity<?> deleteTreatment(@PathVariable Long id){
         treatmentService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    public TreatmentDTO payLoadtoDto(String payload) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        TreatmentDTO t = null;
+        if(payload.contains("RADIOLOGYTREATMENT")){
+            t = objectMapper.readValue(payload, RadiologyTreatmentDTO.class);
+        }else if(payload.contains("SURGERYTREATMENT")){
+            t = objectMapper.readValue(payload, SurgeryTreatmentDTO.class);
+        }else{
+            t = objectMapper.readValue(payload, DrugTreatmentDTO.class);
+        }
+        return t;
     }
 }

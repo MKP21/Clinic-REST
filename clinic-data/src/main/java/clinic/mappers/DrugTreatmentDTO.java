@@ -14,6 +14,10 @@ public class DrugTreatmentDTO extends TreatmentDTO{
         this.dosage = dosage;
     }
 
+    public DrugTreatmentDTO(){
+        super();
+    }
+
     public String getDrug() {
         return drug;
     }

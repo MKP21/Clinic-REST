@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -59,8 +56,8 @@ public class DataLoader implements CommandLineRunner {
         DrugTreatmentDTO t1 = new DrugTreatmentDTO(null,savedtony,savedbanner,"Cancer","CXQc","1 mm");
         TreatmentDTO savedt1 = treatmentService.save(t1);
 
-        List<LocalDate> dates = new ArrayList<LocalDate>();
-        dates.add(LocalDate.now());
+        List<Date> dates = new ArrayList<Date>();
+        dates.add(new Date());
         RadiologyTreatmentDTO t2 = new RadiologyTreatmentDTO(null,savedsteve,savedbanner,"Covid-19",dates);
         TreatmentDTO savedt2 = treatmentService.save(t2);
 

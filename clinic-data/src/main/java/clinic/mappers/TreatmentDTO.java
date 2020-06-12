@@ -22,6 +22,10 @@ public class TreatmentDTO {
         this.treatmentType = treatmentType;
     }
 
+    public TreatmentDTO(){
+
+    }
+
     public Long getId() {
         return id;
     }
