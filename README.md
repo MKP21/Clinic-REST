@@ -24,7 +24,6 @@ This application is packaged as a jar which has Tomcat 8 embedded, the service u
 2020-06-12 15:14:43.806  INFO 15660 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
 2020-06-12 15:14:43.851  INFO 15660 --- [  restartedMain] clinic.ClinicApplication                 : Started ClinicApplication in 3.576 seconds (JVM running for 4.418)
 ```
-*Note: 
 
 ## Built With
 
@@ -33,7 +32,7 @@ This application is packaged as a jar which has Tomcat 8 embedded, the service u
 * Spring Data JPA (Hibernate)
 * Spring Web
 * H2 Database 
-  ** NOTE: the POM.xml for clinic-data already contains MySQL,MongoDB plugins. To use them just set appropriate application properties.
+  ```NOTE: the POM.xml for clinic-data already contains MySQL,MongoDB plugins. To use them just set appropriate application properties.```
 
 ## Future Work
 Add Spring HATEOAS to make the service more Restful
