@@ -60,4 +60,14 @@ public class PatientService implements CrudService<PatientDTO,Long> {
     public void deleteById(Long aLong) {
         patientRepository.deleteById(aLong);
     }
+
+    public PatientDTO saveById(Long id,PatientDTO patientDTO){
+        Patient p = mapper.dtoToPatient(patientDTO);
+
+        p.setId(id);
+
+        Patient psaved = patientRepository.save(p);
+
+        return mapper.patientToDto(psaved);
+    }
 }

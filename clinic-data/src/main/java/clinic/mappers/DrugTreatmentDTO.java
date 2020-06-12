@@ -8,8 +8,8 @@ public class DrugTreatmentDTO extends TreatmentDTO{
     private String drug;
     private String dosage;
 
-    public DrugTreatmentDTO( Patient patient, Provider provider, String diagnosis, TreatmentType treatmentType, String drug, String dosage) {
-        super( patient, provider, diagnosis, treatmentType);
+    public DrugTreatmentDTO( Long id,PatientDTO patient, ProviderDTO provider, String diagnosis, String drug, String dosage) {
+        super( id,patient, provider, diagnosis, TreatmentType.DRUGTREATMENT);
         this.drug = drug;
         this.dosage = dosage;
     }

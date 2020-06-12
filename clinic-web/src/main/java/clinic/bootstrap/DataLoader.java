@@ -1,7 +1,6 @@
 package clinic.bootstrap;
 
-import clinic.mappers.Mapper;
-import clinic.mappers.PatientDTO;
+import clinic.mappers.*;
 import clinic.model.*;
 import clinic.services.PatientService;
 import clinic.services.ProviderService;
@@ -11,19 +10,21 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class DataLoader implements CommandLineRunner {
     private final PatientService patientService;
     private final ProviderService providerService;
     private final TreatmentService treatmentService;
-    private final Mapper mapper;
 
     public DataLoader(PatientService patientService, ProviderService providerService, TreatmentService treatmentService, Mapper mapper) {
         this.patientService = patientService;
         this.providerService = providerService;
         this.treatmentService = treatmentService;
-        this.mapper = mapper;
     }
 
     @Override
@@ -42,57 +43,27 @@ public class DataLoader implements CommandLineRunner {
         tony.setLastName("Stark");
         PatientDTO savedtony = patientService.save(tony);
 
-//        Patient steve = new Patient();
-//        steve.setLastName("Rogers");
-//        steve.setFirstName("Steve");
-//        Patient savedsteve = patientService.save(steve);
-//
-//
-//        System.out.println("Creating provider");
-//        Provider banner = new Provider();
-//        banner.setFirstName("Bruce");
-//        banner.setLastName("Banner");
-//        banner.setSpeciality(Speciality.RADIOLOGIST);
-//        Provider savedbanner = providerService.save(banner);
-//
-//        Provider strange = new Provider();
-//        strange.setFirstName("Doctor");
-//        strange.setLastName("Strange");
-//        strange.setSpeciality(Speciality.SURGEON);
-//        Provider savedstrange = providerService.save(strange);
-//
-//
-//        System.out.println("Creating Treatments");
-//        DrugTreatment treatment1 = new DrugTreatment();
-//        treatment1.setTreatmentType(TreatmentType.DRUGTREATMENT);
-//        treatment1.setDiagnosis("Cancer");
-//        treatment1.setProvider(savedbanner);
-//        treatment1.setPatient(savedtony);
-//        treatment1.setDrug("CXQc");
-//        treatment1.setDosage("1 mm");
-//        Treatment savedt1 = treatmentService.save(treatment1);
-//
-//        savedtony.getTreatments().add(savedt1);
-//        savedbanner.getTreatments().add(savedt1);
-//
-//        patientService.save(savedtony);
-//        providerService.save(savedbanner);
-//        treatmentService.save(savedt1);
-//
-//        RadiologyTreatment treatment2 = new RadiologyTreatment();
-//        treatment2.setTreatmentType(TreatmentType.RADIOLOGYTREATMENT);
-//        treatment2.setProvider(savedstrange);
-//        treatment2.setPatient(savedsteve);
-//        treatment2.setDiagnosis("COVID-19");
-//        treatment2.getDates().add(LocalDate.now());
-//        treatment2.getDates().add(LocalDate.now(ZoneId.of("Europe/Paris")));
-//        Treatment savedt2 = treatmentService.save(treatment2);
-//
-//        savedsteve.getTreatments().add(savedt2);
-//        savedstrange.getTreatments().add(savedt2);
-//        patientService.save(savedsteve);
-//        providerService.save(savedstrange);
-//
-//        System.out.println("Persisted...");
+        PatientDTO steve = new PatientDTO();
+        steve.setLastName("Rogers");
+        steve.setFirstName("Steve");
+        PatientDTO savedsteve = patientService.save(steve);
+
+        System.out.println("Creating providers");
+        ProviderDTO banner = new ProviderDTO(null, "Bruce", "Banner", Speciality.RADIOLOGIST, new HashSet<Long>());
+        ProviderDTO savedbanner = providerService.save(banner);
+
+        ProviderDTO strange = new ProviderDTO(null, "Doctor", "Strange", Speciality.SURGEON, new HashSet<Long>());
+        ProviderDTO savedstrange = providerService.save(strange);
+
+        System.out.println("Creating Treatments");
+        DrugTreatmentDTO t1 = new DrugTreatmentDTO(null,savedtony,savedbanner,"Cancer","CXQc","1 mm");
+        TreatmentDTO savedt1 = treatmentService.save(t1);
+
+        List<LocalDate> dates = new ArrayList<LocalDate>();
+        dates.add(LocalDate.now());
+        RadiologyTreatmentDTO t2 = new RadiologyTreatmentDTO(null,savedsteve,savedbanner,"Covid-19",dates);
+        TreatmentDTO savedt2 = treatmentService.save(t2);
+
+        System.out.println("Persisted...");
     }
 }

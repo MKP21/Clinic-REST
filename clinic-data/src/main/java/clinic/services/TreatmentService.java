@@ -1,41 +1,55 @@
 package clinic.services;
 
+import clinic.mappers.Mapper;
+import clinic.mappers.TreatmentDTO;
 import clinic.model.Treatment;
 import clinic.repositories.TreatmentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
-public class TreatmentService implements CrudService<Treatment,Long> {
+public class TreatmentService implements CrudService<TreatmentDTO,Long> {
     private final TreatmentRepository treatmentRepository;
+    private final Mapper mappper;
 
-    public TreatmentService(TreatmentRepository treatmentRepository) {
+    public TreatmentService(TreatmentRepository treatmentRepository, Mapper mappper) {
         this.treatmentRepository = treatmentRepository;
+        this.mappper = mappper;
     }
 
 
     @Override
-    public Set<Treatment> findAll() {
-        Set<Treatment> treatments = new HashSet<>();
-        treatmentRepository.findAll().forEach(treatments::add);
+    public Set<TreatmentDTO> findAll() {
+        List<Treatment> tls =treatmentRepository.findAll();
+        Set<TreatmentDTO> treatments = new HashSet<>();
+        for(Treatment t:tls){
+            treatments.add(mappper.tretToDto(t));
+        }
+        return treatments;
+    }
+
+    @Override
+    public TreatmentDTO findById(Long aLong) {
+        Treatment t = treatmentRepository.findById(aLong).orElse(null);
+        if(t!=null){
+            return mappper.tretToDto(t);
+        }
         return null;
     }
 
     @Override
-    public Treatment findById(Long aLong) {
-        return treatmentRepository.findById(aLong).orElse(null);
+    public TreatmentDTO save(TreatmentDTO object) {
+        Treatment t = mappper.dtoToTret(object);
+        Treatment saved = treatmentRepository.save(t);
+        return mappper.tretToDto(saved);
     }
 
     @Override
-    public Treatment save(Treatment object) {
-        return treatmentRepository.save(object);
-    }
-
-    @Override
-    public void delete(Treatment object) {
-        treatmentRepository.delete(object);
+    public void delete(TreatmentDTO object) {
+        treatmentRepository.delete(mappper.dtoToTret(object));
     }
 
     @Override

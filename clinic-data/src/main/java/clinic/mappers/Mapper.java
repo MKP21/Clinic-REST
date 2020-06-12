@@ -1,8 +1,6 @@
 package clinic.mappers;
 
-import clinic.model.Patient;
-import clinic.model.Provider;
-import clinic.model.Treatment;
+import clinic.model.*;
 import clinic.repositories.PatientRepository;
 import clinic.repositories.ProviderRepository;
 import clinic.repositories.TreatmentRepository;
@@ -72,4 +70,81 @@ public class Mapper {
         }
         return new ProviderDTO(provider.getId(),provider.getFirstName(),provider.getLastName(),provider.getSpeciality(),tids);
     }
+
+    public DrugTreatmentDTO drugToDTO(DrugTreatment drugTreatment){
+        return new DrugTreatmentDTO(drugTreatment.getId(),patientToDto(drugTreatment.getPatient()),
+                providerToDto(drugTreatment.getProvider()),
+                drugTreatment.getDiagnosis(),
+                drugTreatment.getDrug(),
+                drugTreatment.getDosage());
+    }
+
+    public DrugTreatment dtoToDrug(DrugTreatmentDTO drugTreatmentDTO){
+        DrugTreatment d = new DrugTreatment();
+        d.setId(drugTreatmentDTO.getId());
+        d.setDosage(drugTreatmentDTO.getDosage());
+        d.setDrug(drugTreatmentDTO.getDrug());
+        d.setDiagnosis(drugTreatmentDTO.getDiagnosis());
+        d.setPatient(dtoToPatient(drugTreatmentDTO.getPatient()));
+        d.setProvider(dtoToProvider(drugTreatmentDTO.getProvider()));
+        d.setTreatmentType(drugTreatmentDTO.getTreatmentType());
+        return d;
+    }
+
+    public RadiologyTreatmentDTO radToDTO(RadiologyTreatment radiologyTreatment){
+        return new RadiologyTreatmentDTO(radiologyTreatment.getId(),patientToDto(radiologyTreatment.getPatient()),
+                providerToDto(radiologyTreatment.getProvider()),
+                radiologyTreatment.getDiagnosis(),
+                radiologyTreatment.getDates());
+    }
+
+    public RadiologyTreatment dtoToRad(RadiologyTreatmentDTO radiologyTreatmentDTO){
+        RadiologyTreatment d = new RadiologyTreatment();
+        d.setId(radiologyTreatmentDTO.getId());
+        d.setDates(radiologyTreatmentDTO.getDates());
+        d.setDiagnosis(radiologyTreatmentDTO.getDiagnosis());
+        d.setPatient(dtoToPatient(radiologyTreatmentDTO.getPatient()));
+        d.setProvider(dtoToProvider(radiologyTreatmentDTO.getProvider()));
+        d.setTreatmentType(radiologyTreatmentDTO.getTreatmentType());
+        return d;
+    }
+
+    public SurgeryTreatmentDTO surgToDTO(SurgeryTreatment surgeryTreatment){
+        return new SurgeryTreatmentDTO(surgeryTreatment.getId(),patientToDto(surgeryTreatment.getPatient()),
+                providerToDto(surgeryTreatment.getProvider()),
+                surgeryTreatment.getDiagnosis(),
+                surgeryTreatment.getDate());
+    }
+
+    public SurgeryTreatment dtoToSurg(SurgeryTreatmentDTO surgeryTreatmentDTO){
+        SurgeryTreatment d = new SurgeryTreatment();
+        d.setId(surgeryTreatmentDTO.getId());
+        d.setDate(surgeryTreatmentDTO.getDate());
+        d.setDiagnosis(surgeryTreatmentDTO.getDiagnosis());
+        d.setPatient(dtoToPatient(surgeryTreatmentDTO.getPatient()));
+        d.setProvider(dtoToProvider(surgeryTreatmentDTO.getProvider()));
+        d.setTreatmentType(surgeryTreatmentDTO.getTreatmentType());
+        return d;
+    }
+
+    public TreatmentDTO tretToDto(Treatment treatment){
+        if(treatment.getTreatmentType() == TreatmentType.DRUGTREATMENT){
+            return drugToDTO((DrugTreatment)treatment);
+        }else if(treatment.getTreatmentType() == TreatmentType.RADIOLOGYTREATMENT){
+            return radToDTO((RadiologyTreatment)treatment);
+        }else{
+            return surgToDTO((SurgeryTreatment)treatment);
+        }
+    }
+
+    public Treatment dtoToTret(TreatmentDTO treatmentDTO){
+        if(treatmentDTO.getTreatmentType() == TreatmentType.DRUGTREATMENT){
+            return dtoToDrug((DrugTreatmentDTO) treatmentDTO);
+        }else if(treatmentDTO.getTreatmentType() == TreatmentType.RADIOLOGYTREATMENT) {
+            return dtoToRad((RadiologyTreatmentDTO) treatmentDTO);
+        }else {
+            return dtoToSurg((SurgeryTreatmentDTO)treatmentDTO);
+        }
+    }
+
 }

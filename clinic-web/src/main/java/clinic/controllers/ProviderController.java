@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @Controller
+@RequestMapping("/providers")
 public class ProviderController {
     private final ProviderService providerService;
 

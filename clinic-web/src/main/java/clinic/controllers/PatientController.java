@@ -45,13 +45,13 @@ public class PatientController {
         PatientDTO old = patientService.findById(id);
         if(old == null){
             patientDTO.setId(id);
-            return new ResponseEntity<>(patientService.save(patientDTO),
+            return new ResponseEntity<>(patientService.saveById(id,patientDTO),
                     HttpStatus.CREATED);
         }else{
             old.setFirstName(patientDTO.getFirstName());
             old.setLastName(patientDTO.getLastName());
             old.setTreatments(patientDTO.getTreatments());
-            return new ResponseEntity<>(patientService.findById(id), HttpStatus.OK);
+            return new ResponseEntity<>(patientService.saveById(id,old), HttpStatus.OK);
         }
     }
 

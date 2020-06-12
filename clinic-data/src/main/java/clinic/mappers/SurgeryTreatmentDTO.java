@@ -9,8 +9,8 @@ import java.time.LocalDate;
 public class SurgeryTreatmentDTO extends TreatmentDTO{
     private LocalDate date;
 
-    public SurgeryTreatmentDTO(Patient patient, Provider provider, String diagnosis, TreatmentType treatmentType, LocalDate date) {
-        super( patient, provider, diagnosis, treatmentType);
+    public SurgeryTreatmentDTO(Long id,PatientDTO patient, ProviderDTO provider, String diagnosis, LocalDate date) {
+        super( id,patient, provider, diagnosis, TreatmentType.SURGERYTREATMENT);
         this.date = date;
     }
 

@@ -10,8 +10,8 @@ import java.util.List;
 public class RadiologyTreatmentDTO extends TreatmentDTO {
     private List<LocalDate> dates;
 
-    public RadiologyTreatmentDTO( Patient patient, Provider provider, String diagnosis, TreatmentType treatmentType, List<LocalDate> dates) {
-        super(patient, provider, diagnosis, treatmentType);
+    public RadiologyTreatmentDTO(Long id, PatientDTO patient, ProviderDTO provider, String diagnosis, List<LocalDate> dates) {
+        super(id,patient, provider, diagnosis, TreatmentType.RADIOLOGYTREATMENT);
         this.dates = dates;
     }
 
